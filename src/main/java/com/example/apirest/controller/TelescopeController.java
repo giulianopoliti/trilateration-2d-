@@ -1,6 +1,6 @@
 package com.example.apirest.controller;
 import com.example.apirest.model.*;
-import org.apache.catalina.connector.Response;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,21 +21,16 @@ public class TelescopeController {
     private TelescopeHandler telescopeHandler;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final Logger logger = LoggerFactory.getLogger(TelescopeController.class);
-    @PatchMapping("/update")
+    @PutMapping
     public ResponseEntity<String> updateExoplanet(@RequestBody ExoplanetUpdate updateRequest) {
         try {
             // Validar los datos antes de la actualización
-            if (updateRequest.getNewName() == null || updateRequest.getNewName().isEmpty()) {
-                throw new IllegalArgumentException("El nuevo nombre no puede estar vacío.");
-            }
-
-            if (updateRequest.getNewRadius() == null) {
-                throw new IllegalArgumentException("El nuevo radio no puede ser nulo.");
-            }
-
-            if (updateRequest.getNewWeight() == null) {
-                throw new IllegalArgumentException("El nuevo peso no puede ser nulo.");
-            }
+            Optional.ofNullable(updateRequest.getNewName()).filter(name -> !name.isEmpty())
+                    .orElseThrow(() -> new IllegalArgumentException("El nuevo nombre no puede estar vacio."));
+            Optional.ofNullable(updateRequest.getNewRadius())
+                    .orElseThrow(()-> new IllegalArgumentException("El nuevo radio no puede ser nulo."));
+            Optional.ofNullable(updateRequest.getNewWeight())
+                    .orElseThrow(()-> new IllegalArgumentException("El nuevo peso no puede ser nulo."));
 
             // Obtener el exoplaneta actual
             Exoplanet exoplanet = telescopeHandler.getExoplanet();

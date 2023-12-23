@@ -6,13 +6,14 @@ import lombok.Setter;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.logging.Logger;
 
 @Getter
 @Setter
-@Component
+@Service
 public class TelescopeHandler {
     private List<Telescope> telescopes;
     private Exoplanet exoplanet;

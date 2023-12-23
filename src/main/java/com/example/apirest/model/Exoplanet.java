@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @NoArgsConstructor
-@Scope("singleton")
 @Component
 public class Exoplanet {
     private static Exoplanet exoplanet;
